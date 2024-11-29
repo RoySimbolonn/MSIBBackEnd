@@ -4,20 +4,20 @@ const authService = require('./auth.service');
 const jwt = require('jsonwebtoken');
 
 router.post('/register', async (req, res, next) => {
-
-    const { username, email, password } = req.body;
+    const { username, email, password, role } = req.body;
     try {
-
-        const newUser = await authService.register(username, email, password);
-
-        res.status(201).json({ data: { username: newUser.username, email: newUser.email }, message: "Registration Success!" });
-
+        const newUser = await authService.register(username, email, password, role);
+        res.status(201).json({ 
+            data: { 
+                username: newUser.username, 
+                email: newUser.email,
+                role: newUser.role 
+            }, 
+            message: "Registration Success!" 
+        });
     } catch (error) {
-
         res.status(400).json({ error: error.message });
-
     }
-
 });
 
 router.post('/login', async (req, res, next) => {
